@@ -1,0 +1,84 @@
+version: '3'
+
+
+services:
+  # Server container
+  nginx:
+    build:
+      context: docker/dev/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www
+      - ./docker/dev/nginx/logs:/var/log/nginx
+    ports:
+      # Nuxt port
+      - 8080:80
+      # Laravel port
+      - 8081:81
+    links:
+      - nuxt
+      - laravel
+
+  # PHP FastCGI Process Manager container
+  laravel:
+    build:
+      context: docker/dev/laravel
+      dockerfile: Dockerfile
+    volumes:
+      - ./laravel:/var/www/laravel
+    environment:
+      # If you down want to use xDebug, set remote_enable=0
+      XDEBUG_CONFIG: "remote_enable=1"
+      PHP_IDE_CONFIG: "serverName=Docker"
+    links:
+      - mysql
+      - redis
+      - mailhog
+
+  # MySQL database container
+  mysql:
+    build:
+      context: docker/dev/mysql
+      dockerfile: Dockerfile
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      # Database volume
+      - database:/var/lib/mysql
+    ports:
+      - 33061:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+
+  # Redis container
+  redis:
+    build:
+      context: docker/dev/redis
+      dockerfile: Dockerfile
+    volumes:
+      - redis:/data
+    ports:
+      - 63791:6379
+
+  # Mailhog container (SMTP testing)
+  mailhog:
+    build:
+      context: docker/dev/mailhog
+      dockerfile: Dockerfile
+    ports:
+      - 8026:8025
+
+  # Client container
+  nuxt:
+    build:
+      context: docker/dev/nuxt
+      dockerfile: Dockerfile
+    volumes:
+      - ./nuxt:/var/www/nuxt
+
+
+volumes:
+  database:
+    driver: local
+  redis:
+    driver: local
