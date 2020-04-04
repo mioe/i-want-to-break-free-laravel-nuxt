@@ -34,6 +34,13 @@ import Logo from '~/components/Logo.vue'
 export default {
   components: {
     Logo
+  },
+
+  mounted () {
+    console.log(process.env.API_URL_BROWSER)
+    this.$axios(`${process.env.API_URL_BROWSER}/api/hello`).then((data) => {
+      console.log(data)
+    })
   }
 }
 </script>

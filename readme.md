@@ -23,6 +23,12 @@ The following image demonstrates a request path going through the environment.
 ![Schema](docker/schema.png)
 
 ## Install
+clone project:
+```bash
+git clone https://github.com/mioe/i-want-to-break-free-laravel-nuxt app
+cd app
+```
+
 set up laravel permissions:
 ```bash
 sudo chmod -R 777 laravel/bootstrap/cache
@@ -37,11 +43,18 @@ cp .env.laravel laravel/.env
 
 init docker containers && start project:
 ```bash
-git clone https://github.com/mioe/i-want-to-break-free-laravel-nuxt app
-cd app
 docker-compose up # first start (5-10 min)
 # or
 docker-compose up -d
+```
+
+create new DB:
+```bash
+# open mysql client
+address:  127.0.0.1 # or localhost
+user:     root
+password: 123456
+port:     33061 # not 3306
 ```
 
 init laravel:
