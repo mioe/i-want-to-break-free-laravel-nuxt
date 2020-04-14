@@ -37,8 +37,8 @@ sudo chmod -R 777 laravel/storage
 
 copy environment files:
 ```bash
-cp .env.nuxt nuxt/.env
-cp .env.laravel laravel/.env
+cp .env.example-nuxt nuxt/.env
+cp .env.example-laravel laravel/.env
 ```
 
 init docker containers && start project:

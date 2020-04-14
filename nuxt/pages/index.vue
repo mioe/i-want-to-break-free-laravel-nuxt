@@ -38,7 +38,7 @@ export default {
 
   mounted () {
     console.log(process.env.API_URL_BROWSER)
-    this.$axios(`${process.env.API_URL_BROWSER}/api/hello`).then((data) => {
+    this.$axios(`${process.env.API_URL}/hello`).then((data) => {
       console.log(data)
     })
   }
